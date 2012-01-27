@@ -38,4 +38,5 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk
   rspec
+  rspec-mocks
   sinatra
