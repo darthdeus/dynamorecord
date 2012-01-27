@@ -12,19 +12,28 @@ p
 h2 Your current tasks
 
 table.zebra-striped.tasks
-  - @tasks.each do |task|
-    tr.task id="#{task.attributes['id']}"
-      td.name= task.attributes['name']
+  thead
+    tr
+      th Name
+      th Tags
+      th Actions
+  tbody
+    - @tasks.each do |task|
+      tr.task id="#{task.attributes['id']}"
+        td.name= task.attributes['name']
+        td.tags= task.attributes['tags']
 
-      td.buttons
-        button type="submit" class="edit btn" Edit      
-        button type="submit" class="delete btn danger" Delete
+        td.buttons
+          button type="submit" class="edit btn" Edit      
+          button type="submit" class="delete btn danger" Delete
 
 
 
 h2 Add a new task
 
 form.form-stacked method="post" action="/"
+  input type="hidden" id="task_id"
+
   .clearfix
     label for="name" Name
     .input
@@ -34,10 +43,7 @@ form.form-stacked method="post" action="/"
     label for="tags" Tags
     .input
       input type="text" name="tags" id="tags"
-    
-  .clearfix
-    label for="info" Additional information
-    .input
-      textarea name="info" id="info" rows="6"
+
   .actions
-    button type="submit" class="btn primary" Add a new task
+    button type="submit" class="btn primary update" Update task
+    button type="submit" class="btn primary create" Add a new task

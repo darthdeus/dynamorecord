@@ -23,6 +23,16 @@ get '/get/:id' do
   @task.attributes.to_h.to_json
 end
 
+post '/update/:id' do  
+  task = Task.find_instance(params['id'])
+
+  task['name'] = params['name']
+  task['tags'] = params['tags']
+
+  content_type :json
+  params.to_json
+end
+
 get '/style.css' do
   scss :style
 end

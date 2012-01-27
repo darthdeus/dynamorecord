@@ -39,9 +39,14 @@ class DynamoRecord
       self.establish_connection unless @connected      
       @table.items.where(:id => BigDecimal.new(id)).first
     end
+
+    def find_instance(id)
+      new(find(id))
+    end
   end
 
-  def initialize
+  def initialize(object)
+    @object = object
     @attributes = {}
   end
 
@@ -56,12 +61,12 @@ class DynamoRecord
 
   # Set an attribute
   def []=(name, value)
-    @attributes[name] = value
+    @object.attributes[name] = value
   end
 
 
   # Retrieve an attribute with a given name
   def [](name)
-    @attributes[name]
+    @object.attributes[name]
   end  
 end

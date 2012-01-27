@@ -1,3 +1,4 @@
+
 $(function() {
   $.fn.serializeObject = function() {
     var o = {};
@@ -15,20 +16,52 @@ $(function() {
     return o;
   };
 
-  $("form button").click(function(e) {
+  $("form button.create").click(function(e) {
     alert($("form").serialize());
     e.preventDefault();
   });
 
-  $("button.edit").click(function(e) {
-    var id = $(this).parents('tr').attr('id')
+  $("form button.update").click(function(e) {
+    var data = {
+      name: $("#name").val(),
+      tags: $("#tags").val(),
+    }
 
-    $.get('/get/' + id, function(data) {
-      $("#name").val(data.name);
-      $("#tags").val(data.tags);
-      $("#info").val(data.info);
+    var id =$("#task_id").val();
+    var self = $(this);
+
+    self.attr("disabled", "disabled");
+
+    $.post('/update/' + id, data, function(response) {
+      console.log(response);
+      self.removeAttr("disabled");
     });
 
     e.preventDefault();
   });
+
+
+  $("button.edit").click(function(e) {
+    var id = $(this).parents('tr').attr('id')
+    var self = $(this);
+
+    self.attr("disabled", "disabled");
+
+    $.get('/get/' + id, function(data) {
+      $("#task_id").val(data.id);
+      $("#name").val(data.name);
+      $("#tags").val(data.tags);
+
+      $(".btn.update").show();
+      $(".btn.create").removeClass("primary");
+
+      self.removeAttr("disabled");
+      console.log("loaded data", data);
+    });
+
+  
+    // e.preventDefault();
+  });
+
+  $("button.update").hide();
 });
