@@ -27,9 +27,7 @@ class DynamoRecord
         raise DynamoRecord::TableNotFoundException
       end
     end
-
   end
-  
 
   def initialize
     @attributes = {}
@@ -43,7 +41,6 @@ class DynamoRecord
     return @table_name.to_s if @table_name
     self.class.table_name.to_s
   end
-
 
   # Set an attribute
   def []=(name, value)

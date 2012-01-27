@@ -1,0 +1,16 @@
+h1 DynamoRecord - AWS DynamoDB Task Management
+
+h2 Your current tasks
+
+table.zebra-striped.tasks
+  - @tasks.each do |task|
+    tr.task
+      td.name= task['name']
+
+      td.buttons
+        button type="submit" class="btn" Edit      
+        button type="submit" class="btn danger" Delete
+
+
+
+button type="submit" class="btn primary" Add a new task
