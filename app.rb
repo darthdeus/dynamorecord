@@ -43,7 +43,7 @@ post '/create' do
   hash = task.attributes.to_h
 
   # Tags are store as a Set, so we need to convert it to an Array before we join
-  { :name => hash['name'], :tags => hash['tags'].to_a.join(", ") }.to_json
+  { :id => hash['id'], :name => hash['name'], :tags => hash['tags'].to_a.join(", ") }.to_json
 end
 
 post '/delete/:id' do
