@@ -1,6 +1,9 @@
+$:.unshift File.dirname(__FILE__)
 require 'dynamo_connection'
 
 class DynamoRecord
+
+  class TableNotFoundException < Exception; end
 
   class << self
     def table_name(name = nil)
@@ -10,25 +13,35 @@ class DynamoRecord
         return @name
       else
         # TODO - needed better pluralization here
-        (self.to_s + "s").to_sym.downcase
+        (self.to_s + "s").downcase
       end
     end
 
-    def inherited(klass)
-      puts "Inherited #{klass} and self is #{self}, initializing db connection"
-
+    def establish_connection
       @db = DynamoConnection.instance
+      @table_name = table_name
+      # Initialize the schema
+      begin
+        @db.tables[@table_name].status
+      rescue AWS::DynamoDB::Errors::ResourceNotFoundException
+        raise DynamoRecord::TableNotFoundException
+      end
     end
-  end
 
+  end
   
 
   def initialize
     @attributes = {}
   end
 
+  def table_name=(name)
+    @table_name = name
+  end
+
   def table_name
-    self.class.table_name
+    return @table_name.to_s if @table_name
+    self.class.table_name.to_s
   end
 
 

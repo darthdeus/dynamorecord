@@ -11,4 +11,8 @@ class DynamoConnection
     @db = AWS::DynamoDB.new    
   end
 
+  def tables
+    @db.tables
+  end
+
 end
