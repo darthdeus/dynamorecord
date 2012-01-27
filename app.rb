@@ -30,14 +30,14 @@ post '/update/:id' do
   task = Task.find_instance(params['id'])
 
   task['name'] = params['name']
-  task['tags'] = params['tags'].split(",")
+  task['tags'] = params['tags'].split(",").map(&:strip)
 
   content_type :json
   params.to_json
 end
 
 post '/create' do
-  task = Task.create(:name => params['name'], :tags => params['tags'].split(","))
+  task = Task.create(:name => params['name'], :tags => params['tags'].split(",").map(&:strip))
 
   content_type :json  
   hash = task.attributes.to_h

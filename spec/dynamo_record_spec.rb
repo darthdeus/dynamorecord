@@ -18,21 +18,21 @@ describe DynamoRecord do
         table_name :tasks
       end
 
-      t = Task.new
+      t = Task.new(stub(:attributes => {}))
       t.table_name.should == "tasks"
     end
 
     it "sets a default table name from the class" do
       class Task < DynamoRecord; end
 
-      t = Task.new
+      t = Task.new(stub(:attributes => {}))
       t.table_name.should == "tasks"
     end
 
     it "allows to retrieve attributes via hash notation" do
       class Task < DynamoRecord; end
 
-      t = Task.new
+      t = Task.new(stub(:attributes => {}))
       t["name"] = "foobar"
       t["name"].should == "foobar"
     end
@@ -40,7 +40,7 @@ describe DynamoRecord do
     it "allows to override table name per instance basis" do
       class Task < DynamoRecord; end
 
-      t = Task.new
+      t = Task.new(stub(:attributes => {}))
       t.table_name.should == "tasks"
       t.table_name = "bazinga"
       t.table_name.should == "bazinga"

@@ -48,8 +48,9 @@ class DynamoRecord
 
     def create(params)
       self.establish_connection unless @connected
-      # We need to chomp the UUID to fit in the ID column, there is probably a better way to do this
-      uuid = UUIDTools::UUID.timestamp_create.to_s[0..10].to_i
+      # We need to convert the UUID to BigDecimal to fit in the ID column,
+      # there is probably a better way to do this
+      uuid = BigDecimal.new(UUIDTools::UUID.timestamp_create.to_s)
       @table.items.create({:id => uuid}.merge(params))
     end
   end
