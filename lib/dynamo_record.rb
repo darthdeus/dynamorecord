@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 require 'dynamo_connection'
-
+require 'uuidtools'
 class DynamoRecord
 
   class TableNotFoundException < Exception; end
@@ -36,12 +36,19 @@ class DynamoRecord
     end
 
     def find(id)
-      self.establish_connection unless @connected      
+      self.establish_connection unless @connected
+      puts "Loading for id: #{id}"
       @table.items.where(:id => BigDecimal.new(id)).first
     end
 
     def find_instance(id)
       new(find(id))
+    end
+
+    def create(params)
+      self.establish_connection unless @connected
+      uuid = UUIDTools::UUID.timestamp_create.to_i
+      @table.items.create({:id => uuid}.merge(params))
     end
   end
 

@@ -16,11 +16,11 @@ get '/' do
 end
 
 get '/get/:id' do
-  @task = Task.find(params[:id])
-  halt 404, "Task not found" unless @task
+  task = Task.find(params[:id])
+  halt 404, "Task not found" unless task
   
   content_type :json
-  @task.attributes.to_h.to_json
+  task.attributes.to_h.to_json
 end
 
 post '/update/:id' do  
@@ -31,6 +31,21 @@ post '/update/:id' do
 
   content_type :json
   params.to_json
+end
+
+post '/create' do
+  task = Task.create(:name => params['name'], :tags => params['tags'])
+
+  content_type :json
+  task.attributes.to_h.to_json
+end
+
+post '/delete/:id' do
+  task = Task.find(params[:id])
+  task.delete 
+
+  content_type :json
+  {}.to_json
 end
 
 get '/style.css' do
