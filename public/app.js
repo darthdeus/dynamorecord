@@ -36,10 +36,14 @@ $(function() {
       // reenable and render new task
       self.removeAttr("disabled");
 
-      // create placeholder when all items are deleted to clone from
-      var clone = $("tr:last").clone();
+      // we clone the main parent element to create a new one and fill it with data      
+      var clone = $("#first_father").clone();
+      // the simplest way to override display: none !important;
+      clone.attr("style", "");
       clone.appendTo($("tbody"))
       
+      // ID is converted to exponential format, i.e. 0.1E1, which means we need
+      // to remove the dot to allow CSS selectors to be used (dot isn't allowed in ID)
       clone.attr("id", response.id.replace('.', '_'));
       clone.children(".name").html(response.name);
       clone.children(".tags").html(response.tags);
@@ -66,6 +70,8 @@ $(function() {
       console.log(response);
       self.removeAttr("disabled");
 
+      // ID is converted to exponential format, i.e. 0.1E1, which means we need
+      // to remove the dot to allow CSS selectors to be used (dot isn't allowed in ID)
       var task = $("#task" + response.id.replace('.', '_'));
       task.children(".name").html(response.name);
       task.children(".tags").html(response.tags);
@@ -76,6 +82,9 @@ $(function() {
 
   $("button.delete").live("click", function(e) {
     var parent = $(this).parents('tr').attr('id');
+    
+    // ID is converted to exponential format, i.e. 0.1E1, which means we need
+    // to remove the dot to allow CSS selectors to be used (dot isn't allowed in ID)
     var id = parent.replace("task", "").replace("_", ".");
     var self = $(this);
 
@@ -87,6 +96,8 @@ $(function() {
   });
 
   $("button.edit").live("click", function(e) {
+    // ID is converted to exponential format, i.e. 0.1E1, which means we need
+    // to remove the dot to allow CSS selectors to be used (dot isn't allowed in ID)
     var id = $(this).parents('tr').attr('id').replace("task", "").replace("_", ".");
     var self = $(this);
 

@@ -20,24 +20,30 @@ get '/get/:id' do
   halt 404, "Task not found" unless task
   
   content_type :json
-  task.attributes.to_h.to_json
+  data = task.attributes.to_h
+  # Convert tags to array and join back together
+  data['tags'] = [*data['tags']].join(", ")
+  data.to_json
 end
 
 post '/update/:id' do  
   task = Task.find_instance(params['id'])
 
   task['name'] = params['name']
-  task['tags'] = params['tags']
+  task['tags'] = params['tags'].split(",")
 
   content_type :json
   params.to_json
 end
 
 post '/create' do
-  task = Task.create(:name => params['name'], :tags => params['tags'])
+  task = Task.create(:name => params['name'], :tags => params['tags'].split(","))
 
-  content_type :json
-  task.attributes.to_h.to_json
+  content_type :json  
+  hash = task.attributes.to_h
+
+  # Tags are store as a Set, so we need to convert it to an Array before we join
+  { :name => hash['name'], :tags => hash['tags'].to_a.join(", ") }.to_json
 end
 
 post '/delete/:id' do

@@ -12,11 +12,12 @@ class DynamoRecord
       if @name
         return @name
       else
-        # TODO - needed better pluralization here
+        # Dead simple pluralization
         (self.to_s + "s").downcase
       end
     end
 
+    # Establish a connection to the database
     def establish_connection
       @db = DynamoConnection.instance
       @table_name = table_name
@@ -47,7 +48,8 @@ class DynamoRecord
 
     def create(params)
       self.establish_connection unless @connected
-      uuid = UUIDTools::UUID.timestamp_create.to_i
+      # We need to chomp the UUID to fit in the ID column, there is probably a better way to do this
+      uuid = UUIDTools::UUID.timestamp_create.to_s[0..10].to_i
       @table.items.create({:id => uuid}.merge(params))
     end
   end
@@ -66,13 +68,10 @@ class DynamoRecord
     self.class.table_name.to_s
   end
 
-  # Set an attribute
   def []=(name, value)
     @object.attributes[name] = value
   end
 
-
-  # Retrieve an attribute with a given name
   def [](name)
     @object.attributes[name]
   end  
