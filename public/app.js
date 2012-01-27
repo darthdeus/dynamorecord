@@ -35,6 +35,12 @@ $(function() {
     $.post('/update/' + id, data, function(response) {
       console.log(response);
       self.removeAttr("disabled");
+
+      var task = $("#task" + response.id.replace('.', '_'));
+      task.children(".name").html(response.name);
+      console.log("name set to ", response.name);
+      task.children(".tags").html(response.tags);
+      console.log("tags set to ", response.tags);
     });
 
     e.preventDefault();
@@ -42,7 +48,7 @@ $(function() {
 
 
   $("button.edit").click(function(e) {
-    var id = $(this).parents('tr').attr('id')
+    var id = $(this).parents('tr').attr('id').replace("task", "").replace("_", ".");
     var self = $(this);
 
     self.attr("disabled", "disabled");

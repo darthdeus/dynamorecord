@@ -19,7 +19,7 @@ table.zebra-striped.tasks
       th Actions
   tbody
     - @tasks.each do |task|
-      tr.task id="#{task.attributes['id']}"
+      tr.task id="task#{task.attributes['id'].to_s.sub('.', '_')}"
         td.name= task.attributes['name']
         td.tags= task.attributes['tags']
 
