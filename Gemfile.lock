@@ -60,3 +60,4 @@ DEPENDENCIES
   sass
   sinatra
   slim
+  uuidtools
