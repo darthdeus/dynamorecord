@@ -9,3 +9,5 @@ The ORM itself has a decent test coverage using RSpec and excercises basic funct
 Tasks have two attributes, name, which is strored in a string, and tags, which are split by `,` and stored in an array.
 
 If the application stops responding, refresh the page. There might be an issue with internet connectivity.
+
+If you wish to run this applicatin yourself, you need to create a `tasks` table via the AWS management console and add a primary key called `id`. Then supply your AWS login credentials via environment variables `AMAZON_ACCESS_KEY_ID` and `AMAZON_SECRET_ACCESS_KEY`. On heroku, these can be set via `heroku config:add AMAZON_ACCESS_KEY_ID=ABCDEF` etc.
