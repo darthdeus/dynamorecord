@@ -6,4 +6,6 @@ gem 'slim'
 gem 'sass'
 gem 'heroku'
 
-gem 'rspec'
+group :development do
+  gem 'rspec'
+end
