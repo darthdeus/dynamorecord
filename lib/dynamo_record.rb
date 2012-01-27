@@ -22,10 +22,22 @@ class DynamoRecord
       @table_name = table_name
       # Initialize the schema
       begin
-        @db.tables[@table_name].status
+        @table = @db.tables[@table_name]
+        @table.status
+        @connected = true
       rescue AWS::DynamoDB::Errors::ResourceNotFoundException
         raise DynamoRecord::TableNotFoundException
       end
+    end
+
+    def all
+      self.establish_connection unless @connected
+      @table.items.to_a
+    end
+
+    def find(id)
+      self.establish_connection unless @connected      
+      @table.items.where(:id => BigDecimal.new(id)).first
     end
   end
 
@@ -51,5 +63,5 @@ class DynamoRecord
   # Retrieve an attribute with a given name
   def [](name)
     @attributes[name]
-  end
+  end  
 end

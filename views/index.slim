@@ -1,16 +1,43 @@
-h1 DynamoRecord - AWS DynamoDB Task Management
+h1 AWS DynamoDB Task Management
+
+p 
+  | This application is a demonstration of the use of DynamoDB.
+  | It uses a custom ORM called DynamoRecord to access the database.
+
+p
+  | The app is created using Ruby framework Sinatra and the source code
+  | is available on GitHub.
+
 
 h2 Your current tasks
 
 table.zebra-striped.tasks
   - @tasks.each do |task|
-    tr.task
-      td.name= task['name']
+    tr.task id="#{task.attributes['id']}"
+      td.name= task.attributes['name']
 
       td.buttons
-        button type="submit" class="btn" Edit      
-        button type="submit" class="btn danger" Delete
+        button type="submit" class="edit btn" Edit      
+        button type="submit" class="delete btn danger" Delete
 
 
 
-button type="submit" class="btn primary" Add a new task
+h2 Add a new task
+
+form.form-stacked method="post" action="/"
+  .clearfix
+    label for="name" Name
+    .input
+      input type="text" name="name" id="name"
+
+  .clearfix
+    label for="tags" Tags
+    .input
+      input type="text" name="tags" id="tags"
+    
+  .clearfix
+    label for="info" Additional information
+    .input
+      textarea name="info" id="info" rows="6"
+  .actions
+    button type="submit" class="btn primary" Add a new task
